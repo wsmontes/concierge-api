@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/curations.schema.json",
+  "title": "Curations",
+  "description": "Schema for curator-assigned categorizations and annotations on entities. Each curation links to an entity via entityId and should be deleted when the entity is deleted (CASCADE).",
+  "type": "object",
+  "properties": {
+    "curations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": { 
+            "type": "string", 
+            "pattern": "^[a-z0-9][a-z0-9_-]{2,}$",
+            "description": "Unique identifier for the curation (lowercase alphanumeric with underscore/hyphen, min 3 chars)"
+          },
+          "entityId": { 
+            "type": "string", 
+            "pattern": "^[a-z0-9][a-z0-9_-]{2,}$",
+            "description": "References entities.id. Foreign key relationship with CASCADE DELETE behavior - curations are deleted when the associated entity is deleted."
+          },
+          "curator": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Information about the curator who created this curation",
+            "properties": {
+              "id": { 
+                "type": "string", 
+                "minLength": 1,
+                "description": "Curator's unique identifier"
+              },
+              "name": { 
+                "type": "string", 
+                "minLength": 1,
+                "description": "Curator's display name"
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "description": "Curator's email address (optional)"
+              }
+            },
+            "required": ["id", "name"]
+          },
+          "createdAt": { 
+            "type": "string", 
+            "format": "date-time",
+            "description": "Timestamp when curation was created"
+          },
+          "updatedAt": { 
+            "type": "string", 
+            "format": "date-time",
+            "description": "Timestamp when curation was last updated"
+          },
+          "notes": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Curator notes with public/private visibility control",
+            "properties": {
+              "public": { 
+                "type": "string",
+                "description": "Notes visible to end users/clients"
+              },
+              "private": { 
+                "type": "string",
+                "description": "Internal notes visible only to curators and admins"
+              }
+            }
+          },
+          "categories": {
+            "type": "object",
+            "minProperties": 1,
+            "description": "Mapa categoria → lista de conceitos (strings). Exemplos de categorias comuns: mood, cuisine, menu, food_style, drinks, setting, crowd, suitable_for, special_features, covid_specials, price_and_payment, price_range. IMPORTANTE: nomes de categoria sempre em minúsculas (lowercase), compartilham o mesmo nome entre tipos de entidade (ex: 'cuisine' em restaurant = 'cuisine' em hotel).",
+            "patternProperties": {
+              "^[a-z0-9_\\-]+$": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { 
+                  "type": "string", 
+                  "pattern": "^(?!\\s*$).+",
+                  "description": "Conceito/valor da categoria (não pode ser apenas whitespace)"
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "sources": {
+            "type": "array",
+            "minItems": 1,
+            "items": { 
+              "type": "string", 
+              "pattern": "^(?!\\s*$).+",
+              "description": "Source reference (não pode ser apenas whitespace)"
+            },
+            "description": "Citation sources for curation data - URLs, references, identifiers, or any text describing where information was obtained (e.g., 'audio 2025-09-09', 'caderno X', 'https://example.com'). If present, must have at least one source."
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "default": 1,
+            "description": "Version number for tracking curation history and changes"
+          }
+        },
+        "required": ["id", "entityId", "curator", "createdAt", "categories"]
+      }
+    }
+  },
+  "required": ["curations"],
+  "additionalProperties": false
+}

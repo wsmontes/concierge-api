@@ -1,0 +1,122 @@
+================================================================================
+  🔧 FIX GIT REPOSITORY ON PYTHONANYWHERE
+================================================================================
+
+Your .git folder was deleted. Here's how to restore it:
+
+================================================================================
+  OPTION 1: RE-CLONE FROM GITHUB (RECOMMENDED)
+================================================================================
+
+# 1. Go to parent directory
+cd ~
+
+# 2. Backup current folder (just in case)
+mv Concierge-Analyzer Concierge-Analyzer-backup
+
+# 3. Clone fresh from GitHub
+git clone https://github.com/wsmontes/Concierge-Analyzer.git
+
+# 4. Done! Now you can git pull normally
+cd Concierge-Analyzer
+git pull origin main
+
+# 5. Install packages
+cd mysql_api
+pip3.13 install -r requirements.txt
+
+# 6. Reload web app
+
+================================================================================
+  OPTION 2: REINITIALIZE GIT IN EXISTING FOLDER
+================================================================================
+
+If you want to keep your current files:
+
+# 1. Go to project root
+cd ~/Concierge-Analyzer
+
+# 2. Initialize git
+git init
+
+# 3. Add remote
+git remote add origin https://github.com/wsmontes/Concierge-Analyzer.git
+
+# 4. Fetch from GitHub
+git fetch origin main
+
+# 5. Reset to match GitHub
+git reset --hard origin/main
+
+# 6. Set tracking
+git branch --set-upstream-to=origin/main main
+
+# 7. Now git pull will work
+git pull origin main
+
+================================================================================
+  OPTION 3: MANUAL FILE UPLOAD (IF GIT ISSUES PERSIST)
+================================================================================
+
+If git continues to have problems:
+
+1. Just upload the updated files via PythonAnywhere Files tab:
+   - mysql_api/models_v3.py
+   - mysql_api/requirements.txt
+   - mysql_api/wsgi_v3.py
+
+2. Install packages:
+   cd ~/Concierge-Analyzer/mysql_api
+   pip3.13 install -r requirements.txt
+
+3. Reload web app
+
+================================================================================
+  ⚠️ IMPORTANT: PRESERVE YOUR .env FILE
+================================================================================
+
+If you re-clone or reset, your .env file with database password will be lost!
+
+Before doing Option 1 or 2:
+
+# Backup .env
+cp ~/Concierge-Analyzer/mysql_api/.env ~/.env_backup
+
+# After git operations:
+cp ~/.env_backup ~/Concierge-Analyzer/mysql_api/.env
+
+================================================================================
+  🧪 VERIFY GIT IS WORKING
+================================================================================
+
+After fixing:
+
+cd ~/Concierge-Analyzer
+git status
+git remote -v
+
+Should show:
+  origin  https://github.com/wsmontes/Concierge-Analyzer.git (fetch)
+  origin  https://github.com/wsmontes/Concierge-Analyzer.git (push)
+
+================================================================================
+  🚀 QUICK START (SAFEST)
+================================================================================
+
+# Backup .env
+cp ~/Concierge-Analyzer/mysql_api/.env ~/.env_backup
+
+# Re-clone
+cd ~
+mv Concierge-Analyzer Concierge-Analyzer-old
+git clone https://github.com/wsmontes/Concierge-Analyzer.git
+
+# Restore .env
+cp ~/.env_backup ~/Concierge-Analyzer/mysql_api/.env
+
+# Install and reload
+cd ~/Concierge-Analyzer/mysql_api
+pip3.13 install -r requirements.txt
+# Then reload web app
+
+================================================================================

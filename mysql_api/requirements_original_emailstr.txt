@@ -1,0 +1,33 @@
+# 
+# Requirements file for Concierge Entities API
+# Install with: pip install -r requirements.txt
+#
+
+# Core Flask framework
+Flask==2.3.3
+Werkzeug==2.3.7
+
+# CORS support for API
+Flask-CORS==4.0.0
+
+# MySQL database connector
+mysql-connector-python==8.2.0
+
+# Environment variable management
+python-dotenv==1.0.0
+
+# JSON schema validation
+jsonschema==4.19.2
+
+# Date/time utilities
+python-dateutil==2.8.2
+
+# V3 Dependencies - Pydantic for data validation
+pydantic==2.5.0
+pydantic[email]==2.5.0
+
+# Development dependencies (optional)
+# pytest==7.4.3
+# pytest-cov==4.1.0
+# black==23.9.1
+# flake8==6.1.0

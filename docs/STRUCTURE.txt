@@ -1,0 +1,84 @@
+Concierge-Analyzer/
+│
+├── README.md                          # Project overview and quick start
+├── .gitignore                         # Git ignore rules
+├── .env                               # Environment variables (gitignored)
+│
+├── mysql_api/                         # ✅ PRODUCTION APPLICATION CODE
+│   ├── app_v3.py                     # Flask application factory
+│   ├── api_v3.py                     # REST API endpoints
+│   ├── models_v3.py                  # Pydantic data models
+│   ├── database_v3.py                # Database layer (local)
+│   ├── database_v3_pythonanywhere.py # Database layer (PythonAnywhere)
+│   ├── wsgi_v3.py                    # WSGI entry point
+│   ├── requirements.txt              # Python dependencies
+│   └── .env.template                 # Environment template
+│
+├── docs/                              # 📚 DOCUMENTATION
+│   ├── README_V3.md                  # Complete V3 API documentation
+│   ├── V3_IMPLEMENTATION_SUMMARY.md  # Technical overview
+│   ├── DEPLOYMENT_PYTHONANYWHERE.md  # Deployment guide
+│   ├── V3_DEPLOYMENT_TREE.txt        # Visual deployment guide
+│   └── DIRECTORY_STRUCTURE.md        # This file's companion doc
+│
+├── scripts/                           # ⚙️ ONE-TIME UTILITIES & SCRIPTS
+│   ├── reset_v3.sql                  # Database reset (SQL)
+│   ├── reset_v3.sh                   # Database reset (bash)
+│   ├── deploy_v3.sh                  # Production deployment
+│   ├── quickstart_v3.sh              # 5-minute setup
+│   ├── migrate_v2_to_v3.sql          # V2→V3 migration
+│   ├── queries_v3.sql                # 50+ example queries
+│   ├── export_v3_snapshot.sql        # Database export
+│   └── concierge_parser.py           # Data parser utility
+│
+├── examples/                          # 📊 REFERENCE DATA & SCHEMAS
+│   ├── schemas/                      # JSON Schema definitions
+│   │   ├── entities.schema.json     # Entity schema
+│   │   └── curations.schema.json    # Curation schema
+│   └── data/                         # Sample data files
+│       ├── entities_example.json    # Example entities
+│       └── curations_example.json   # Example curations
+│
+├── tests/                             # 🧪 TEST FILES
+│   └── (test files to be added)
+│
+└── mysql_api_venv/                    # 🐍 PYTHON VIRTUAL ENV (gitignored)
+    └── (Python packages)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+
+ORGANIZATION PRINCIPLES:
+
+✅ mysql_api/     = Code that runs in production
+📚 docs/          = Documentation and guides  
+⚙️ scripts/       = One-time setup and utilities
+📊 examples/      = Reference data and schemas
+🧪 tests/         = Test files
+🐍 mysql_api_venv/= Virtual environment (not committed)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+DEPLOYMENT:
+
+Local Development:
+  - All folders used
+  - Run: mysql_api/app_v3.py
+  
+PythonAnywhere Production:
+  - Upload: mysql_api/ (entire folder)
+  - Use: scripts/reset_v3.sql (initial setup)
+  - Entry: wsgi_v3.py
+
+═══════════════════════════════════════════════════════════════════════════════
+
+QUICK REFERENCE:
+
+New Python module?        → mysql_api/ (if core) or scripts/ (if utility)
+New SQL script?           → scripts/
+New documentation?        → docs/
+Example data?             → examples/data/
+JSON schema?              → examples/schemas/
+Test file?                → tests/
+
+═══════════════════════════════════════════════════════════════════════════════

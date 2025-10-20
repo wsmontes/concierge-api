@@ -1,0 +1,138 @@
+{
+  "curations": [
+    {
+      "id": "cur_wagner_rest_fogo_de_chao_jardins",
+      "entityId": "rest_fogo_de_chao_jardins",
+      "curator": {
+        "id": "curator_wagner",
+        "name": "Wagner"
+      },
+      "createdAt": "2025-10-20T18:27:00Z",
+      "notes": {
+        "public": "",
+        "private": ""
+      },
+      "categories": {
+        "cuisine": [
+          "brazilian",
+          "barbecue"
+        ],
+        "menu": [
+          "rib-eye steak",
+          "barbecue",
+          "chicken",
+          "chimichurri",
+          "churros",
+          "cod",
+          "crab cone",
+          "crème brûlée",
+          "lamb",
+          "lobster",
+          "pork",
+          "salad",
+          "salmon",
+          "sea food",
+          "shrimp",
+          "squid",
+          "steaks",
+          "top sirloin cap",
+          "vegetarian options",
+          "wagyu beef",
+          "argentinean beef",
+          "appetizers",
+          "brazilian beef",
+          "fish"
+        ],
+        "food_style": [
+          "classic",
+          "traditionnal",
+          "all you can eat"
+        ],
+        "drinks": [
+          "bourbon",
+          "caipirinhas",
+          "manhattan",
+          "margarita",
+          "signature cocktails",
+          "bloody mary",
+          "aperol",
+          "bar",
+          "beer",
+          "brandy",
+          "cachaça",
+          "champagne",
+          "cognac",
+          "dessert wine",
+          "dry martini",
+          "mojito",
+          "negroni",
+          "sangria",
+          "tequila",
+          "whisky",
+          "international wines",
+          "local wines",
+          "jerez",
+          "local beers",
+          "wine by the glass",
+          "wine list"
+        ],
+        "setting": [
+          "upscale",
+          "classical",
+          "round tables",
+          "comfortable"
+        ],
+        "mood": [
+          "lively",
+          "executive",
+          "noisy"
+        ],
+        "crowd": [
+          "international",
+          "families",
+          "kids",
+          "locals",
+          "executives"
+        ],
+        "suitable_for": [
+          "meetings",
+          "tourists",
+          "celebrations",
+          "corporate events",
+          "visitors",
+          "birthdays",
+          "families",
+          "business dinners",
+          "business lunches"
+        ],
+        "special_features": [
+          "open 7x7",
+          "private events",
+          "delivery",
+          "reservations recommended",
+          "valet parking",
+          "friendly service",
+          "sommelier"
+        ],
+        "covid_specials": [
+          "masked staff",
+          "covid protocols",
+          "extra cleanliness",
+          "hand sanitizer",
+          "tables distancing"
+        ],
+        "price_and_payment": [
+          "credit cards accepted",
+          "debit cards accepted"
+        ],
+        "price_range": [
+          "expensive"
+        ]
+      },
+      "sources": [
+        "audio 2025-09-09",
+        "site oficial"
+      ]
+    }
+  ]
+}

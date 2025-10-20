@@ -1,0 +1,85 @@
+================================================================================
+  🔧 PYTHON VERSION MISMATCH + RUST COMPILATION FIX
+================================================================================
+
+ISSUE 1: Your PythonAnywhere web app is using Python 3.13, but packages were
+         installed for Python 3.10.
+
+ISSUE 2: pydantic[email] requires Rust compiler, which causes "Disk quota 
+         exceeded" error.
+
+SOLUTION: Use PythonAnywhere-compatible versions without Rust dependencies.
+
+================================================================================
+  📝 RUN THESE COMMANDS ON PYTHONANYWHERE:
+================================================================================
+
+cd ~/Concierge-Analyzer/mysql_api
+
+# Step 1: Install packages (now using main requirements.txt)
+pip3.13 install -r requirements.txt
+
+# Step 2: Reload your web app from the Web tab
+# (Green "Reload" button on the Web tab)
+
+# That's it! models_v3.py is already PythonAnywhere-compatible
+
+================================================================================
+  🔄 ALTERNATIVE - MANUAL PACKAGE INSTALL:
+================================================================================
+
+If requirements.txt hasn't been uploaded yet:
+
+pip3.13 install Flask==2.3.3
+pip3.13 install Flask-CORS==4.0.0
+pip3.13 install mysql-connector-python==8.2.0
+pip3.13 install python-dotenv==1.0.0
+pip3.13 install jsonschema==4.19.2
+pip3.13 install python-dateutil==2.8.2
+pip3.13 install "pydantic>=2.9.0,<3.0.0"
+
+# Note: Using pydantic 2.9+ for Python 3.13 pre-built wheels
+# pydantic 2.5.0 doesn't have wheels for Python 3.13 = Rust compilation required!
+
+# Then reload your web app from the Web tab
+# (Green "Reload" button on the Web tab)
+
+================================================================================
+  ✅ VERIFICATION:
+================================================================================
+
+After reloading, test with:
+
+curl https://wsmontes.pythonanywhere.com/api/v3/health
+
+Should return:
+{
+  "status": "healthy",
+  "database": "connected",
+  ...
+}
+
+================================================================================
+  📋 ALTERNATIVE: Change Web App Python Version
+================================================================================
+
+If you prefer to keep Python 3.10:
+
+1. Go to PythonAnywhere Web tab
+2. Find "Python version" section
+3. Change from 3.13 to 3.10
+4. Click "Reload"
+
+(But Python 3.13 is newer, so better to upgrade packages!)
+
+================================================================================
+  🔍 HOW TO CHECK YOUR WEB APP'S PYTHON VERSION:
+================================================================================
+
+In PythonAnywhere Web tab, look for:
+- "Python version: 3.13" (or similar)
+
+Or check in bash:
+python3 --version
+
+================================================================================

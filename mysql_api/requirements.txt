@@ -1,0 +1,35 @@
+# 
+# PythonAnywhere-compatible Requirements for V3 API
+# Install with: pip3.13 install --user -r requirements_pythonanywhere.txt
+#
+# This version avoids packages that require compilation (Rust, C extensions)
+#
+
+# Core Flask framework
+Flask==2.3.3
+Werkzeug==2.3.7
+
+# CORS support for API
+Flask-CORS==4.0.0
+
+# MySQL database connector (pure Python, no compilation needed)
+mysql-connector-python==8.2.0
+
+# Environment variable management
+python-dotenv==1.0.0
+
+# JSON schema validation
+jsonschema==4.19.2
+
+# Date/time utilities
+python-dateutil==2.8.2
+
+# V3 Dependencies - Pydantic for data validation
+# CRITICAL: Python 3.13 requires newer pydantic with pre-built wheels
+# pydantic 2.5.0 doesn't have wheels for Python 3.13, causing Rust compilation
+# Using pydantic 2.9+ which has Python 3.13 wheels available
+pydantic>=2.9.0,<3.0.0
+
+# Note: pydantic[email] removed to avoid additional compilation issues
+# If email validation is needed later, can add email-validator separately
+# when disk quota allows or use simpler validation

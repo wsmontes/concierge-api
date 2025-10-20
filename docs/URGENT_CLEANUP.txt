@@ -1,0 +1,133 @@
+================================================================================
+  🎯 PRIORITY CLEANUP - FREE DISK SPACE NOW
+================================================================================
+
+Current Status: 691.7 MB / 1.0 GB (68% full)
+Target: Get below 50% to safely install V3 packages
+
+================================================================================
+  🚨 STEP 1: REMOVE LARGEST SPACE HOGS (Run in PythonAnywhere Bash)
+================================================================================
+
+# Open bash console in: /home/wsmontes/Concierge-Analyzer
+# Click "Open Bash console here" button you see in Files tab
+
+# 1. Remove Rust compiler cache (if exists - can be 100-200MB)
+rm -rf ~/.cache/puccinialin
+rm -rf ~/.rustup
+rm -rf ~/.cargo
+
+# 2. Check if that helped
+du -sh ~/.cache
+
+# 3. Clean pip cache
+pip3.13 cache purge
+pip3.10 cache purge
+
+# 4. Check quota again
+quota
+
+================================================================================
+  📊 STEP 2: FIND WHAT'S USING SPACE
+================================================================================
+
+# Check size of each directory
+du -sh ~/Concierge-Analyzer/*
+
+# Check virtual environment size
+du -sh ~/Concierge-Analyzer/mysql_api_venv
+
+# Check Python packages
+du -sh ~/.local/lib/python3.10/site-packages 2>/dev/null
+du -sh ~/.local/lib/python3.13/site-packages 2>/dev/null
+
+# Find large files
+find ~/Concierge-Analyzer -type f -size +5M -exec ls -lh {} \;
+
+================================================================================
+  🗑️ STEP 3: SAFE FILES TO DELETE
+================================================================================
+
+cd ~/Concierge-Analyzer
+
+# Delete all __pycache__ directories
+find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null
+
+# Delete all .pyc files
+find . -name "*.pyc" -delete
+
+# Delete log files if any
+find . -name "*.log" -size +1M -delete
+
+# Check freed space
+du -sh ~/Concierge-Analyzer
+
+================================================================================
+  ⚠️ STEP 4: CONDITIONAL CLEANUP (if still need space)
+================================================================================
+
+# IF mysql_api_venv is large (check with: du -sh mysql_api_venv):
+
+Option A: Delete venv if you have requirements files
+rm -rf ~/Concierge-Analyzer/mysql_api_venv
+
+Option B: Keep venv, but uninstall unused packages
+source ~/Concierge-Analyzer/mysql_api_venv/bin/activate
+pip uninstall -y pytest pytest-cov black flake8 2>/dev/null
+deactivate
+
+================================================================================
+  🎯 STEP 5: CHECK RESULTS
+================================================================================
+
+# Final disk check
+quota
+
+# Should now show < 500 MB used (under 50%)
+
+# If still over 50%, list top 10 largest items:
+du -sh ~/Concierge-Analyzer/* | sort -hr | head -10
+
+================================================================================
+  ✅ EXPECTED RESULTS
+================================================================================
+
+Before cleanup:  691.7 MB (68%)
+After cleanup:   ~400-500 MB (40-50%)
+Space freed:     ~200-300 MB
+
+This gives you room to install V3 packages (~100 MB)
+
+================================================================================
+  🚀 AFTER CLEANUP SUCCESS
+================================================================================
+
+Once quota shows < 50%:
+
+1. Upload V3 files to mysql_api/:
+   - requirements_pythonanywhere.txt
+   - models_v3_pythonanywhere.py
+   - app_v3.py
+   - api_v3.py
+   - database_v3_pythonanywhere.py
+   - wsgi_v3.py
+
+2. Install packages:
+   pip3.13 install Flask==2.3.3 Flask-CORS==4.0.0 mysql-connector-python==8.2.0 python-dotenv==1.0.0 jsonschema==4.19.2 python-dateutil==2.8.2 "pydantic>=2.9.0,<3.0.0"
+
+3. Follow DEPLOYMENT_CHECKLIST.md
+
+================================================================================
+  🆘 IF CLEANUP ISN'T ENOUGH
+================================================================================
+
+If still over 60% after cleanup:
+
+Option 1: Upgrade to paid account (3GB+ storage)
+Option 2: Delete mysql_api_venv and reinstall only what's needed
+Option 3: Move static files elsewhere or compress them
+Option 4: Contact PythonAnywhere support for quota increase
+
+Most likely: Removing Rust cache alone will free 100-200MB!
+
+================================================================================

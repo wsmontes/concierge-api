@@ -1,0 +1,146 @@
+================================================================================
+  🧹 PYTHONANYWHERE CLEANUP GUIDE
+================================================================================
+
+This guide will help you clean up your PythonAnywhere environment to resolve
+disk quota and package conflicts before deploying V3.
+
+================================================================================
+  STEP 1: CLEAN UP PYTHON PACKAGES
+================================================================================
+
+# Remove conflicting packages from both Python versions
+pip3.10 uninstall -y pydantic pydantic-core email-validator dnspython
+pip3.13 uninstall -y pydantic pydantic-core email-validator dnspython
+
+# Clean pip cache to free disk space
+pip3.13 cache purge
+
+================================================================================
+  STEP 2: REMOVE RUST COMPILER CACHE
+================================================================================
+
+# Remove Rust installation attempts (these take up a lot of space)
+rm -rf ~/.cache/puccinialin
+rm -rf ~/.rustup
+rm -rf ~/.cargo
+
+# Check freed space
+du -sh ~/.cache
+
+================================================================================
+  STEP 3: CHECK DISK USAGE
+================================================================================
+
+# Check total disk usage
+quota
+
+# Check Python package sizes
+du -sh ~/.local/lib/python3.10/site-packages
+du -sh ~/.local/lib/python3.13/site-packages
+
+# Check project size
+du -sh ~/Concierge-Analyzer
+
+================================================================================
+  STEP 4: BACKUP CURRENT WORKING FILES (OPTIONAL)
+================================================================================
+
+# Only if you want to preserve V2 or current setup
+cd ~/Concierge-Analyzer/mysql_api
+cp app_v2.py app_v2_backup.py 2>/dev/null || true
+cp wsgi_v2.py wsgi_v2_backup.py 2>/dev/null || true
+cp .env .env_backup 2>/dev/null || true
+
+================================================================================
+  STEP 5: LIST WHAT'S CURRENTLY INSTALLED
+================================================================================
+
+# See what packages are installed for Python 3.13
+pip3.13 list | grep -E "pydantic|flask|mysql"
+
+# See what packages are installed for Python 3.10  
+pip3.10 list | grep -E "pydantic|flask|mysql"
+
+================================================================================
+  STEP 6: VERIFY WEB APP CONFIGURATION
+================================================================================
+
+Go to PythonAnywhere Web tab and note:
+
+1. Current Python version: ___________
+2. WSGI file path: ___________
+3. Working directory: ___________
+4. Virtual environment (if any): ___________
+
+================================================================================
+  AUTOMATED CLEANUP (OPTIONAL)
+================================================================================
+
+If you want to run all cleanup commands at once:
+
+# Copy the cleanup script to PythonAnywhere
+# Then run:
+bash ~/Concierge-Analyzer/scripts/cleanup_pythonanywhere.sh
+
+================================================================================
+  WHAT TO KEEP
+================================================================================
+
+✅ Keep these files:
+- ~/Concierge-Analyzer/mysql_api/.env (your database credentials)
+- ~/Concierge-Analyzer/mysql_api/app_v2.py (if V2 is working)
+- ~/Concierge-Analyzer/mysql_api/wsgi_v2.py (current WSGI config)
+
+🗑️ Safe to delete:
+- Any __pycache__ directories
+- .pyc files
+- Old log files
+- Temporary files in /tmp
+
+================================================================================
+  AFTER CLEANUP
+================================================================================
+
+You should have:
+- No pydantic packages installed in Python 3.10 or 3.13
+- No Rust compiler cache
+- More free disk space
+- A clean slate for V3 installation
+
+Next: Follow PYTHONANYWHERE_FIX.txt to install V3 packages correctly.
+
+================================================================================
+  TROUBLESHOOTING
+================================================================================
+
+If "permission denied" errors:
+  → You shouldn't see these with --user flag, but if you do, skip those files
+
+If "disk quota exceeded" during cleanup:
+  → This means you're already at limit
+  → Focus on removing Rust cache first: rm -rf ~/.cache/puccinialin
+  → Then try cleanup commands one by one
+
+If packages won't uninstall:
+  → Use: pip3.13 uninstall -y <package> --break-system-packages
+  → Or: pip3.13 uninstall -y <package> --force
+
+================================================================================
+  VERIFY CLEANUP SUCCESS
+================================================================================
+
+After cleanup, check:
+
+# Should show NO pydantic
+pip3.13 list | grep pydantic
+
+# Should show NO email-validator  
+pip3.13 list | grep email
+
+# Should show reduced size
+du -sh ~/.local/lib/python3.13/site-packages
+
+If all clear, proceed to install V3 packages!
+
+================================================================================

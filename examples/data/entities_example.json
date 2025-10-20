@@ -1,0 +1,46 @@
+{
+  "entities": [
+    {
+      "id": "rest_fogo_de_chao_jardins",
+      "type": "restaurant",
+      "name": "Fogo de Chão - Jardins",
+      "metadata": [
+        {
+          "type": "google_places",
+          "source": "google-places-api",
+          "importedAt": "2025-10-20T18:25:00Z",
+          "data": {
+            "placeId": "gp_abc123",
+            "rating": {
+              "average": 4.5,
+              "totalRatings": 1123,
+              "priceLevel": 4
+            },
+            "location": {
+              "latitude": -23.564,
+              "longitude": -46.654,
+              "formattedAddress": "Alameda Santos, 123, São Paulo - SP, Brasil"
+            },
+            "hours": {
+              "periods": []
+            }
+          }
+        },
+        {
+          "type": "collector",
+          "source": "manual",
+          "importedAt": "2025-10-20T18:26:00Z",
+          "data": {
+            "location": {
+              "country": "BR",
+              "city": "São Paulo"
+            },
+            "contact": {
+              "phone": "+55 11 0000-0000"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
