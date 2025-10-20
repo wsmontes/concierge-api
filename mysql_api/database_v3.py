@@ -15,7 +15,7 @@ from mysql.connector.pooling import MySQLConnectionPool
 
 from models_v3 import (
     Entity, Curation,
-    QueryFilterss, QueryRequest
+    QueryFilters, QueryRequest
 )
 
 
