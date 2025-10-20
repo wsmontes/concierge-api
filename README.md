@@ -1,6 +1,35 @@
-# Concierge Analyzer
+# Concierge API
 
 A document-oriented REST API for restaurant and hotel curation, powered by MySQL 8.0+ JSON features.
+
+[![GitHub License](https://img.shields.io/github/license/wsmontes/concierge-api)](LICENSE)
+[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/downloads/)
+[![Flask](https://img.shields.io/badge/flask-2.x-green)](https://flask.palletsprojects.com/)
+
+## 🚀 Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/wsmontes/concierge-api.git
+cd concierge-api
+
+# Create virtual environment
+python3 -m venv mysql_api_venv
+source mysql_api_venv/bin/activate  # On Windows: mysql_api_venv\Scripts\activate
+
+# Install dependencies
+pip install -r mysql_api/requirements.txt
+
+# Set up environment variables
+cp mysql_api/.env.template mysql_api/.env
+# Edit .env with your database configuration
+
+# Run the development server
+cd mysql_api
+python app_v3.py
+```
+
+The API will be available at `http://localhost:5000`
 
 ## 🗂️ Project Structure
 
