@@ -2,9 +2,11 @@
 
 A document-oriented REST API for restaurant and hotel curation, powered by MySQL 8.0+ JSON features.
 
-[![GitHub License](https://img.shields.io/github/license/wsmontes/concierge-api)](LICENSE)
+![Status](https://img.shields.io/badge/status-private-red)
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/downloads/)
 [![Flask](https://img.shields.io/badge/flask-2.x-green)](https://flask.palletsprojects.com/)
+
+> **Note:** This is a private project by Wagner Montes. All rights reserved.
 
 ## 🚀 Quick Start
 
@@ -30,6 +32,15 @@ python app_v3.py
 ```
 
 The API will be available at `http://localhost:5000`
+
+## 🚀 Deployment
+
+This project is configured for deployment on [PythonAnywhere](https://www.pythonanywhere.com/). See the `docs/DEPLOYMENT_PYTHONANYWHERE.md` for detailed deployment instructions.
+
+### PythonAnywhere Setup
+- The repository is designed to work seamlessly with PythonAnywhere's hosting environment
+- Database configuration automatically adapts for PythonAnywhere's MySQL service
+- WSGI entry point configured in `mysql_api/wsgi_v3.py`
 
 ## 🗂️ Project Structure
 
