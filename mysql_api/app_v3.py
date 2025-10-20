@@ -1,5 +1,5 @@
 """
-Concierge Analyzer - V3 Application Entry Point
+Concierge API - V3 Application Entry Point
 Purpose: Flask application factory for V3 API
 Dependencies: Flask, models_v3, database_v3, api_v3
 Usage: python app_v3.py
@@ -68,7 +68,7 @@ def create_app(config=None):
     @app.route('/')
     def index():
         return jsonify({
-            "name": "Concierge Analyzer API",
+            "name": "Concierge API",
             "version": "3.0",
             "description": "Document-oriented REST API for restaurant/hotel curation",
             "endpoints": {
@@ -104,7 +104,7 @@ if __name__ == '__main__':
     
     print(f"""
 ╔═══════════════════════════════════════════╗
-║   Concierge Analyzer V3 API Server       ║
+║   Concierge API V3 Server                ║
 ╚═══════════════════════════════════════════╝
 
 Environment:

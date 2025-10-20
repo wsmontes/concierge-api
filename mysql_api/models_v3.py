@@ -1,5 +1,5 @@
 """
-Concierge Analyzer - V3 Data Models (PythonAnywhere Compatible)
+Concierge API - V3 Data Models (PythonAnywhere Compatible)
 Purpose: Pydantic models for document-oriented entities and curations
 Dependencies: pydantic, jsonschema for validation
 Architecture: Models match JSON Schema v2020-12 definitions exactly

@@ -45,7 +45,7 @@ This project is configured for deployment on [PythonAnywhere](https://www.python
 ## 🗂️ Project Structure
 
 ```
-Concierge-Analyzer/
+concierge-api/
 ├── mysql_api/              # Core V3 API application (production code)
 │   ├── app_v3.py          # Flask application factory
 │   ├── api_v3.py          # REST API endpoints
@@ -94,8 +94,8 @@ Concierge-Analyzer/
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/wsmontes/Concierge-Analyzer.git
-cd Concierge-Analyzer
+git clone https://github.com/wsmontes/concierge-api.git
+cd concierge-api
 
 # 2. Set up Python environment
 cd mysql_api
@@ -281,7 +281,7 @@ GitHub: [@wsmontes](https://github.com/wsmontes)
 
 ## 🔗 Links
 
-- [GitHub Repository](https://github.com/wsmontes/Concierge-Analyzer)
+- [GitHub Repository](https://github.com/wsmontes/concierge-api)
 - [PythonAnywhere Deployment](https://wsmontes.pythonanywhere.com)
 
 ---

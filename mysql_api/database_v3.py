@@ -1,5 +1,5 @@
 """
-Concierge Analyzer - V3 Database Layer
+Concierge API - V3 Database Layer
 Purpose: Database connection and JSON query helpers for V3 schema
 Dependencies: mysql-connector-python, models_v3
 Architecture: Document-oriented queries with JSON_EXTRACT and JSON_TABLE

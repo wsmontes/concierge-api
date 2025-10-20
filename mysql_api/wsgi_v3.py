@@ -1,5 +1,5 @@
 """
-Concierge Analyzer - V3 WSGI Entry Point
+Concierge API - V3 WSGI Entry Point
 Purpose: PythonAnywhere-compatible WSGI application for V3 API
 Dependencies: Works with both mysql-connector-python (local) and mysqlclient (PythonAnywhere)
 Usage: Configure in PythonAnywhere Web tab as WSGI file
@@ -9,7 +9,7 @@ import os
 import sys
 
 # Add project directory to path
-project_home = '/home/wsmontes/Concierge-Analyzer/mysql_api'
+project_home = '/home/wsmontes/concierge-api/mysql_api'
 if project_home not in sys.path:
     sys.path.insert(0, project_home)
 

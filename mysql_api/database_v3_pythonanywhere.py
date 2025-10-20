@@ -1,5 +1,5 @@
 """
-Concierge Analyzer - V3 Database Layer (PythonAnywhere Compatible)
+Concierge API - V3 Database Layer (PythonAnywhere Compatible)
 Purpose: Database layer using MySQLdb (mysqlclient) instead of mysql-connector-python
 Dependencies: mysqlclient (MySQLdb), models_v3
 Architecture: Document-oriented queries with JSON_EXTRACT and JSON_TABLE

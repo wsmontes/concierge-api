@@ -1,7 +1,7 @@
 # Directory Structure Guide
 
 ## Purpose
-This document explains the organization of the Concierge Analyzer workspace.
+This document explains the organization of the Concierge API workspace.
 
 ---
 
