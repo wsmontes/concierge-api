@@ -50,28 +50,43 @@ class DatabaseV3:
             "pool_size": pool_size,
             "autocommit": False,
             "charset": "utf8mb4",
-            "use_unicode": True
+            "use_unicode": True,
+            # Additional settings for PythonAnywhere stability
+            "connection_timeout": 30,
+            "pool_reset_session": True,
+            "sql_mode": 'TRADITIONAL'
         }
         
         try:
             self.pool = MySQLConnectionPool(**self.config)
+            print(f"Database connection pool initialized successfully")
         except MySQLError as e:
+            print(f"Failed to initialize database pool: {e}")
             raise RuntimeError(f"Failed to create connection pool: {e}")
     
     @contextmanager
     def get_connection(self):
-        """Context manager for database connections"""
+        """Context manager for database connections with improved error handling"""
         connection = None
         try:
             connection = self.pool.get_connection()
+            if not connection.is_connected():
+                connection.reconnect(attempts=3, delay=1)
             yield connection
         except MySQLError as e:
+            print(f"Failed to get database connection: {e}")
             if connection:
-                connection.rollback()
-            raise RuntimeError(f"Database error: {e}")
+                try:
+                    connection.rollback()
+                except:
+                    pass  # Ignore rollback errors on failed connections
+            raise RuntimeError(f"Database operation failed: {e}")
         finally:
             if connection and connection.is_connected():
-                connection.close()
+                try:
+                    connection.close()
+                except:
+                    pass  # Ignore close errors
     
     @contextmanager
     def get_cursor(self, dictionary=True, buffered=True):

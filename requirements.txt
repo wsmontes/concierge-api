@@ -12,6 +12,9 @@ Werkzeug==2.3.7
 # CORS support for API
 Flask-CORS==4.0.0
 
+# Flask compression for better performance
+Flask-Compress==1.13
+
 # MySQL database connector (pure Python, no compilation needed)
 mysql-connector-python==8.2.0
 

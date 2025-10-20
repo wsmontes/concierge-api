@@ -12,9 +12,9 @@ from pydantic import ValidationError
 import json
 
 from models_v3 import (
-    Entity, EntityDocument, EntityCreateRequest, EntityUpdateRequest,
-    Curation, CurationDocument, CurationCreateRequest, CurationUpdateRequest,
-    QueryRequest, PaginatedResponse
+    Entity, EntityCreate, EntityUpdate,
+    Curation, CurationCreate, CurationUpdate,
+    QueryRequest, QueryFilters
 )
 from database_v3 import DatabaseV3, EntityRepository, CurationRepository, QueryBuilder
 
@@ -97,7 +97,7 @@ def create_entity():
     """
     try:
         data = request.get_json()
-        req = EntityCreateRequest(**data)
+        req = EntityCreate(**data)
         
         # Create Entity model with timestamps
         entity = Entity(
@@ -161,7 +161,7 @@ def update_entity(entity_id: str):
     """
     try:
         data = request.get_json()
-        req = EntityUpdateRequest(**data)
+        req = EntityUpdate(**data)
         
         # Check for version in If-Match header
         if_match = request.headers.get('If-Match')
@@ -258,7 +258,7 @@ def create_curation():
     """
     try:
         data = request.get_json()
-        req = CurationCreateRequest(**data)
+        req = CurationCreate(**data)
         
         curation = Curation(
             id=req.id,
@@ -319,7 +319,7 @@ def update_curation(curation_id: str):
     """
     try:
         data = request.get_json()
-        req = CurationUpdateRequest(**data)
+        req = CurationUpdate(**data)
         
         if_match = request.headers.get('If-Match')
         expected_version = req.version or (int(if_match) if if_match else None)

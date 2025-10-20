@@ -1,0 +1,34 @@
+# PythonAnywhere Requirements for Concierge API V3
+# Install with: pip install --user -r requirements_pythonanywhere.txt
+# Or from virtual environment: pip install -r requirements_pythonanywhere.txt
+
+# Core Flask framework
+Flask==2.3.3
+Werkzeug==2.3.7
+
+# CORS support for API
+Flask-CORS==4.0.0
+
+# Flask compression for better performance (MISSING DEPENDENCY)
+Flask-Compress==1.13
+
+# MySQL database connector (pure Python, no compilation needed)
+mysql-connector-python==8.2.0
+
+# Environment variable management
+python-dotenv==1.0.0
+
+# JSON schema validation
+jsonschema==4.19.2
+
+# Date/time utilities
+python-dateutil==2.8.2
+
+# Pydantic for data validation (Python 3.13 compatible)
+pydantic>=2.9.0,<3.0.0
+
+# Email validation if needed (optional)
+email-validator==2.3.0
+
+# Additional utilities
+typing-extensions>=4.0.0

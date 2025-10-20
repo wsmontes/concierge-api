@@ -52,14 +52,23 @@ def create_app(config=None):
         }
     })
     
-    # Initialize database connection
-    db = DatabaseV3(
-        host=app.config['DB_HOST'],
-        port=app.config['DB_PORT'],
-        user=app.config['DB_USER'],
-        password=app.config['DB_PASSWORD'],
-        database=app.config['DB_NAME']
-    )
+    # Initialize database connection with improved pooling
+    db_config = {
+        'host': app.config['DB_HOST'],
+        'port': app.config['DB_PORT'],
+        'user': app.config['DB_USER'],
+        'password': app.config['DB_PASSWORD'],
+        'database': app.config['DB_NAME'],
+        'pool_size': app.config.get('DB_POOL_SIZE', 3),  # Reduced for PythonAnywhere
+        'pool_name': app.config.get('DB_POOL_NAME', 'concierge_v3_pool')
+    }
+    
+    try:
+        db = DatabaseV3(**db_config)
+        app.logger.info(f"Database connection pool initialized successfully")
+    except Exception as e:
+        app.logger.error(f"Failed to initialize database pool: {e}")
+        raise
     
     # Register V3 API blueprint
     init_v3_api(app, db)
