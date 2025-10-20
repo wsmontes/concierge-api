@@ -14,8 +14,8 @@ from mysql.connector import Error as MySQLError
 from mysql.connector.pooling import MySQLConnectionPool
 
 from models_v3 import (
-    Entity, EntityDocument, Curation, CurationDocument,
-    QueryFilter, QueryRequest
+    Entity, Curation,
+    QueryFilterss, QueryRequest
 )
 
 
@@ -142,7 +142,7 @@ class EntityRepository:
             return Entity(
                 id=row['id'],
                 type=row['type'],
-                doc=EntityDocument(**json.loads(row['doc'])),
+                doc=Entity(**json.loads(row['doc'])),
                 created_at=row['created_at'],
                 updated_at=row['updated_at'],
                 version=row['version']
@@ -230,7 +230,7 @@ class EntityRepository:
                 Entity(
                     id=row['id'],
                     type=row['type'],
-                    doc=EntityDocument(**json.loads(row['doc'])),
+                    doc=Entity(**json.loads(row['doc'])),
                     created_at=row['created_at'],
                     updated_at=row['updated_at'],
                     version=row['version']
@@ -256,7 +256,7 @@ class EntityRepository:
                 Entity(
                     id=row['id'],
                     type=row['type'],
-                    doc=EntityDocument(**json.loads(row['doc'])),
+                    doc=Entity(**json.loads(row['doc'])),
                     created_at=row['created_at'],
                     updated_at=row['updated_at'],
                     version=row['version']
@@ -325,7 +325,7 @@ class CurationRepository:
             return Curation(
                 id=row['id'],
                 entity_id=row['entity_id'],
-                doc=CurationDocument(**json.loads(row['doc'])),
+                doc=Curation(**json.loads(row['doc'])),
                 created_at=row['created_at'],
                 updated_at=row['updated_at'],
                 version=row['version']
@@ -348,7 +348,7 @@ class CurationRepository:
                 Curation(
                     id=row['id'],
                     entity_id=row['entity_id'],
-                    doc=CurationDocument(**json.loads(row['doc'])),
+                    doc=Curation(**json.loads(row['doc'])),
                     created_at=row['created_at'],
                     updated_at=row['updated_at'],
                     version=row['version']
@@ -442,7 +442,7 @@ class CurationRepository:
                 Curation(
                     id=row['id'],
                     entity_id=row['entity_id'],
-                    doc=CurationDocument(**json.loads(row['doc'])),
+                    doc=Curation(**json.loads(row['doc'])),
                     created_at=row['created_at'],
                     updated_at=row['updated_at'],
                     version=row['version']
@@ -459,8 +459,8 @@ class QueryBuilder:
     """Build SQL queries from QueryRequest DSL"""
     
     @staticmethod
-    def build_filter_clause(filter_obj: QueryFilter) -> Tuple[str, Any]:
-        """Convert QueryFilter to SQL WHERE clause"""
+    def build_filter_clause(filter_obj: QueryFilters) -> Tuple[str, Any]:
+        """Convert QueryFilters to SQL WHERE clause"""
         operators_map = {
             "=": "=",
             "!=": "!=",
