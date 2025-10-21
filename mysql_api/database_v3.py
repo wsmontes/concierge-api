@@ -15,7 +15,7 @@ from mysql.connector.pooling import MySQLConnectionPool
 
 from models_v3 import (
     Entity, Curation,
-    QueryFilters, QueryRequest
+    QueryFilter, QueryRequest
 )
 
 
@@ -474,8 +474,8 @@ class QueryBuilder:
     """Build SQL queries from QueryRequest DSL"""
     
     @staticmethod
-    def build_filter_clause(filter_obj: QueryFilters) -> Tuple[str, Any]:
-        """Convert QueryFilters to SQL WHERE clause"""
+    def build_filter_clause(filter_obj: QueryFilter) -> Tuple[str, Any]:
+        """Convert QueryFilter to SQL WHERE clause"""
         operators_map = {
             "=": "=",
             "!=": "!=",

@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concierge API V3 Comprehensive Test Suite</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .config-section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .config-section h2 {
+            color: #4a5568;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 5px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .input-group label {
+            min-width: 120px;
+            font-weight: 500;
+            color: #2d3748;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .test-section {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .test-header {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+
+        .test-header:hover {
+            background: linear-gradient(135deg, #3182ce, #2c5aa0);
+        }
+
+        .test-header h3 {
+            font-size: 1.2rem;
+        }
+
+        .toggle-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .test-content {
+            padding: 20px;
+            display: none;
+        }
+
+        .test-content.active {
+            display: block;
+        }
+
+        .test-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #38a169, #2f855a);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #ed8936, #dd6b20);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #dd6b20, #c05621);
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f56565, #e53e3e);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #e53e3e, #c53030);
+            transform: translateY(-1px);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: linear-gradient(135deg, #3182ce, #2c5aa0);
+            transform: translateY(-1px);
+        }
+
+        .response-container {
+            margin-top: 15px;
+        }
+
+        .response-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status-error {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .response-content {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+        }
+
+        .clear-btn {
+            background: #718096;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .clear-btn:hover {
+            background: #4a5568;
+        }
+
+        .sample-data {
+            background: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .sample-data h4 {
+            color: #0c4a6e;
+            margin-bottom: 10px;
+        }
+
+        .sample-data pre {
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #bae6fd;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4299e1;
+        }
+
+        .stat-label {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .test-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍽️ Concierge API V3 Test Suite</h1>
+            <p>Comprehensive testing for document-oriented entities and curations</p>
+            <p style="font-size: 1rem; margin-top: 10px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; display: inline-block;">
+                🌐 <strong>Remote API Testing:</strong> wsmontes.pythonanywhere.com
+            </p>
+        </div>
+
+        <!-- Configuration Section -->
+        <div class="config-section">
+            <h2>⚙️ API Configuration</h2>
+            <div class="input-group">
+                <label for="apiBase">Base URL:</label>
+                <input type="text" id="apiBase" value="https://wsmontes.pythonanywhere.com">
+            </div>
+            <div class="input-group">
+                <label for="timeout">Timeout (ms):</label>
+                <input type="number" id="timeout" value="15000">
+            </div>
+            <div style="margin-top: 10px; font-size: 0.9rem; color: #718096;">
+                <strong>Testing Remote API:</strong> wsmontes.pythonanywhere.com<br>
+                <em>Change to http://localhost:5000 for local testing</em>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalRequests">0</div>
+                <div class="stat-label">Total Requests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="successRequests">0</div>
+                <div class="stat-label">Successful</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="errorRequests">0</div>
+                <div class="stat-label">Errors</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avgResponseTime">0</div>
+                <div class="stat-label">Avg Response (ms)</div>
+            </div>
+        </div>
+
+        <!-- Health & Info Tests -->
+        <div class="test-section">
+            <div class="test-header" onclick="toggleSection('health')">
+                <h3>🏥 Health & Info Endpoints</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="test-content active" id="health-content">
+                <div class="test-actions">
+                    <button class="btn btn-info" onclick="testHealth()">Health Check</button>
+                    <button class="btn btn-info" onclick="testInfo()">API Info</button>
+                    <button class="btn btn-info" onclick="testRoot()">Root Endpoint</button>
+                </div>
+                <div class="response-container" id="health-response"></div>
+            </div>
+        </div>
+
+        <!-- Entity Tests -->
+        <div class="test-section">
+            <div class="test-header" onclick="toggleSection('entities')">
+                <h3>🏢 Entity Management</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="test-content" id="entities-content">
+                <div class="test-actions">
+                    <button class="btn btn-primary" onclick="createSampleEntities()">Create Sample Entities</button>
+                    <button class="btn btn-info" onclick="getEntity('rest_fogo_de_chao_jardins')">Get Restaurant</button>
+                    <button class="btn btn-info" onclick="getEntity('hotel_copacabana_palace')">Get Hotel</button>
+                    <button class="btn btn-secondary" onclick="updateEntity()">Update Entity</button>
+                    <button class="btn btn-info" onclick="listEntitiesByType('restaurant')">List Restaurants</button>
+                    <button class="btn btn-info" onclick="searchEntitiesByName('Fogo')">Search by Name</button>
+                    <button class="btn btn-danger" onclick="deleteEntity('rest_test_delete')">Delete Test Entity</button>
+                </div>
+                
+                <div class="sample-data">
+                    <h4>Sample Entity Structure:</h4>
+                    <pre id="entitySample"></pre>
+                </div>
+                
+                <div class="response-container" id="entities-response"></div>
+            </div>
+        </div>
+
+        <!-- Curation Tests -->
+        <div class="test-section">
+            <div class="test-header" onclick="toggleSection('curations')">
+                <h3>✨ Curation Management</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="test-content" id="curations-content">
+                <div class="test-actions">
+                    <button class="btn btn-primary" onclick="createSampleCurations()">Create Sample Curations</button>
+                    <button class="btn btn-info" onclick="getCuration('cur_wagner_rest_fogo_de_chao_jardins')">Get Wagner's Curation</button>
+                    <button class="btn btn-info" onclick="getCuration('cur_maria_hotel_copacabana_palace')">Get Maria's Curation</button>
+                    <button class="btn btn-secondary" onclick="updateCuration()">Update Curation</button>
+                    <button class="btn btn-info" onclick="getEntityCurations('rest_fogo_de_chao_jardins')">Entity Curations</button>
+                    <button class="btn btn-info" onclick="searchCurations('mood', 'romantic')">Search Romantic</button>
+                    <button class="btn btn-info" onclick="searchCurations('cuisine', 'brazilian')">Search Brazilian</button>
+                    <button class="btn btn-danger" onclick="deleteCuration('cur_test_delete')">Delete Test Curation</button>
+                </div>
+                
+                <div class="sample-data">
+                    <h4>Sample Curation Structure:</h4>
+                    <pre id="curationSample"></pre>
+                </div>
+                
+                <div class="response-container" id="curations-response"></div>
+            </div>
+        </div>
+
+        <!-- Advanced Query Tests -->
+        <div class="test-section">
+            <div class="test-header" onclick="toggleSection('queries')">
+                <h3>🔍 Advanced Query DSL</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="test-content" id="queries-content">
+                <div class="test-actions">
+                    <button class="btn btn-info" onclick="queryEntitiesByName()">Query Entities by Name</button>
+                    <button class="btn btn-info" onclick="queryEntitiesByStatus()">Query Active Entities</button>
+                    <button class="btn btn-info" onclick="queryCurationsByCategory()">Query by Category</button>
+                    <button class="btn btn-info" onclick="queryWithExplode()">Query with Array Explode</button>
+                    <button class="btn btn-info" onclick="complexQuery()">Complex Multi-Filter Query</button>
+                </div>
+                
+                <div class="sample-data">
+                    <h4>Sample Query DSL:</h4>
+                    <pre id="querySample"></pre>
+                </div>
+                
+                <div class="response-container" id="queries-response"></div>
+            </div>
+        </div>
+
+        <!-- Stress Testing -->
+        <div class="test-section">
+            <div class="test-header" onclick="toggleSection('stress')">
+                <h3>⚡ Performance & Stress Tests</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="test-content" id="stress-content">
+                <div class="test-actions">
+                    <button class="btn btn-secondary" onclick="createBulkEntities()">Create 50 Entities</button>
+                    <button class="btn btn-secondary" onclick="createBulkCurations()">Create 100 Curations</button>
+                    <button class="btn btn-info" onclick="concurrentRequests()">Concurrent Requests Test</button>
+                    <button class="btn btn-danger" onclick="cleanupTestData()">Cleanup Test Data</button>
+                </div>
+                <div class="response-container" id="stress-response"></div>
+            </div>
+        </div>
+
+        <!-- Error Testing -->
+        <div class="test-section">
+            <div class="test-header" onclick="toggleSection('errors')">
+                <h3>🚫 Error Handling Tests</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="test-content" id="errors-content">
+                <div class="test-actions">
+                    <button class="btn btn-danger" onclick="testInvalidEntity()">Invalid Entity Data</button>
+                    <button class="btn btn-danger" onclick="testInvalidCuration()">Invalid Curation Data</button>
+                    <button class="btn btn-danger" onclick="testNotFound()">Not Found Errors</button>
+                    <button class="btn btn-danger" onclick="testVersionConflict()">Version Conflicts</button>
+                    <button class="btn btn-danger" onclick="testInvalidQuery()">Invalid Queries</button>
+                </div>
+                <div class="response-container" id="errors-response"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let stats = {
+            total: 0,
+            success: 0,
+            error: 0,
+            responseTimes: []
+        };
+
+        // Sample data structures
+        const sampleEntity = {
+            "id": "rest_fogo_de_chao_jardins",
+            "type": "restaurant",
+            "doc": {
+                "name": "Fogo de Chão - Jardins",
+                "status": "active",
+                "externalId": "foursquare_abc123",
+                "createdAt": "2025-10-20T18:25:00Z",
+                "createdBy": "system",
+                "metadata": [
+                    {
+                        "type": "google_places",
+                        "source": "google-places-api",
+                        "importedAt": "2025-10-20T18:25:00Z",
+                        "data": {
+                            "placeId": "gp_abc123",
+                            "rating": {"average": 4.5, "totalRatings": 1123},
+                            "location": {
+                                "latitude": -23.564,
+                                "longitude": -46.654,
+                                "formattedAddress": "Alameda Santos, 123, São Paulo - SP"
+                            }
+                        }
+                    }
+                ]
+            }
+        };
+
+        const sampleCuration = {
+            "id": "cur_wagner_rest_fogo_de_chao_jardins",
+            "entity_id": "rest_fogo_de_chao_jardins",
+            "doc": {
+                "curator": {
+                    "id": "curator_wagner",
+                    "name": "Wagner Montes",
+                    "email": "wagner@example.com"
+                },
+                "createdAt": "2025-10-20T18:27:00Z",
+                "notes": {
+                    "public": "Excellent Brazilian steakhouse with premium cuts",
+                    "private": "Check wine pairing recommendations"
+                },
+                "categories": {
+                    "cuisine": ["brazilian", "barbecue", "steakhouse"],
+                    "mood": ["lively", "executive", "celebration"],
+                    "price_range": ["high-end", "premium"],
+                    "occasion": ["business dinner", "special celebration", "date night"]
+                },
+                "sources": ["audio 2025-09-09", "visit 2025-10-01"]
+            }
+        };
+
+        const sampleQuery = {
+            "from": "curations",
+            "explode": {"path": "$.categories.mood", "as": "mood_concept"},
+            "filters": [
+                {"path": "mood_concept", "operator": "=", "value": "romantic"}
+            ],
+            "limit": 10
+        };
+
+        // Initialize sample displays
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('entitySample').textContent = JSON.stringify(sampleEntity, null, 2);
+            document.getElementById('curationSample').textContent = JSON.stringify(sampleCuration, null, 2);
+            document.getElementById('querySample').textContent = JSON.stringify(sampleQuery, null, 2);
+        });
+
+        // Utility functions
+        function getApiBase() {
+            return document.getElementById('apiBase').value.replace(/\/$/, '');
+        }
+
+        function getTimeout() {
+            return parseInt(document.getElementById('timeout').value) || 10000;
+        }
+
+        function updateStats() {
+            document.getElementById('totalRequests').textContent = stats.total;
+            document.getElementById('successRequests').textContent = stats.success;
+            document.getElementById('errorRequests').textContent = stats.error;
+            
+            const avgTime = stats.responseTimes.length > 0 
+                ? Math.round(stats.responseTimes.reduce((a, b) => a + b, 0) / stats.responseTimes.length)
+                : 0;
+            document.getElementById('avgResponseTime').textContent = avgTime;
+        }
+
+        function toggleSection(sectionName) {
+            const content = document.getElementById(sectionName + '-content');
+            const icon = content.parentElement.querySelector('.toggle-icon');
+            
+            content.classList.toggle('active');
+            icon.textContent = content.classList.contains('active') ? '▼' : '▶';
+        }
+
+        async function makeRequest(method, endpoint, data = null, headers = {}) {
+            const startTime = Date.now();
+            const url = `${getApiBase()}${endpoint}`;
+            
+            try {
+                stats.total++;
+                
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...headers
+                    }
+                };
+
+                if (data) {
+                    options.body = JSON.stringify(data);
+                }
+
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), getTimeout());
+                options.signal = controller.signal;
+
+                const response = await fetch(url, options);
+                clearTimeout(timeoutId);
+
+                const responseTime = Date.now() - startTime;
+                stats.responseTimes.push(responseTime);
+
+                let responseData;
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    responseData = await response.json();
+                } else {
+                    responseData = await response.text();
+                }
+
+                if (response.ok) {
+                    stats.success++;
+                } else {
+                    stats.error++;
+                }
+
+                updateStats();
+
+                return {
+                    ok: response.ok,
+                    status: response.status,
+                    statusText: response.statusText,
+                    data: responseData,
+                    responseTime: responseTime,
+                    headers: Object.fromEntries(response.headers.entries())
+                };
+
+            } catch (error) {
+                const responseTime = Date.now() - startTime;
+                stats.error++;
+                updateStats();
+
+                return {
+                    ok: false,
+                    status: 0,
+                    statusText: 'Network Error',
+                    data: { error: error.message },
+                    responseTime: responseTime,
+                    headers: {}
+                };
+            }
+        }
+
+        function displayResponse(containerId, response, title = '') {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            const responseDiv = document.createElement('div');
+            responseDiv.innerHTML = `
+                <div class="response-header">
+                    <strong>${title || 'Response'}</strong>
+                    <div>
+                        <span class="status-badge ${response.ok ? 'status-success' : 'status-error'}">
+                            ${response.status} ${response.statusText}
+                        </span>
+                        <span style="margin-left: 10px; font-size: 12px; color: #718096;">
+                            ${response.responseTime}ms
+                        </span>
+                        <button class="clear-btn" onclick="this.parentElement.parentElement.parentElement.remove()">
+                            ✕
+                        </button>
+                    </div>
+                </div>
+                <div class="response-content">${JSON.stringify(response.data, null, 2)}</div>
+            `;
+
+            container.appendChild(responseDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Health & Info Tests
+        async function testHealth() {
+            const response = await makeRequest('GET', '/api/v3/health');
+            displayResponse('health-response', response, 'Health Check');
+        }
+
+        async function testInfo() {
+            const response = await makeRequest('GET', '/api/v3/info');
+            displayResponse('health-response', response, 'API Info');
+        }
+
+        async function testRoot() {
+            const response = await makeRequest('GET', '/');
+            displayResponse('health-response', response, 'Root Endpoint');
+        }
+
+        // Entity Tests
+        async function createSampleEntities() {
+            const entities = [
+                {
+                    "id": "rest_fogo_de_chao_jardins",
+                    "type": "restaurant",
+                    "doc": {
+                        "name": "Fogo de Chão - Jardins",
+                        "status": "active",
+                        "externalId": "foursquare_fdc_jardins",
+                        "createdAt": "2025-10-20T18:25:00Z",
+                        "createdBy": "import_system",
+                        "metadata": [
+                            {
+                                "type": "google_places",
+                                "source": "google-places-api",
+                                "importedAt": "2025-10-20T18:25:00Z",
+                                "data": {
+                                    "placeId": "ChIJXX1234567890",
+                                    "rating": {"average": 4.5, "totalRatings": 1123, "priceLevel": 4},
+                                    "location": {
+                                        "latitude": -23.5641,
+                                        "longitude": -46.6544,
+                                        "formattedAddress": "Alameda Santos, 1357 - Cerqueira César, São Paulo - SP, 01419-001, Brazil"
+                                    },
+                                    "categories": ["restaurant", "steakhouse", "brazilian_restaurant"]
+                                }
+                            },
+                            {
+                                "type": "collector",
+                                "source": "manual_entry",
+                                "importedAt": "2025-10-20T18:26:00Z",
+                                "data": {
+                                    "location": {"country": "BR", "city": "São Paulo", "neighborhood": "Jardins"},
+                                    "contact": {"phone": "+55 11 3289-4600", "website": "https://fogodechao.com.br"},
+                                    "features": ["valet_parking", "wine_cellar", "private_rooms"]
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "hotel_copacabana_palace",
+                    "type": "hotel",
+                    "doc": {
+                        "name": "Belmond Copacabana Palace",
+                        "status": "active",
+                        "externalId": "booking_copacabana_palace",
+                        "createdAt": "2025-10-20T18:30:00Z",
+                        "createdBy": "import_system",
+                        "metadata": [
+                            {
+                                "type": "booking_com",
+                                "source": "booking-api",
+                                "importedAt": "2025-10-20T18:30:00Z",
+                                "data": {
+                                    "hotelId": "booking_20424",
+                                    "rating": {"average": 9.1, "totalRatings": 2856},
+                                    "location": {
+                                        "latitude": -22.9719,
+                                        "longitude": -43.1847,
+                                        "address": "Av. Atlântica, 1702 - Copacabana, Rio de Janeiro - RJ, 22021-001"
+                                    },
+                                    "amenities": ["pool", "spa", "fitness_center", "restaurant", "bar", "beach_access"]
+                                }
+                            },
+                            {
+                                "type": "collector",
+                                "source": "manual_entry",
+                                "importedAt": "2025-10-20T18:32:00Z",
+                                "data": {
+                                    "classification": "luxury",
+                                    "stars": 5,
+                                    "features": ["iconic_building", "historical_landmark", "celebrity_guests"]
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "rest_test_delete",
+                    "type": "restaurant",
+                    "doc": {
+                        "name": "Test Restaurant - For Deletion",
+                        "status": "draft",
+                        "createdAt": "2025-10-20T20:00:00Z",
+                        "createdBy": "test_user",
+                        "metadata": [
+                            {
+                                "type": "test_data",
+                                "source": "api_test",
+                                "importedAt": "2025-10-20T20:00:00Z",
+                                "data": {"purpose": "deletion_test"}
+                            }
+                        ]
+                    }
+                }
+            ];
+
+            for (const entity of entities) {
+                const response = await makeRequest('POST', '/api/v3/entities', entity);
+                displayResponse('entities-response', response, `Created ${entity.id}`);
+            }
+        }
+
+        async function getEntity(entityId) {
+            const response = await makeRequest('GET', `/api/v3/entities/${entityId}`);
+            displayResponse('entities-response', response, `Get Entity: ${entityId}`);
+        }
+
+        async function updateEntity() {
+            const updateData = {
+                "doc": {
+                    "status": "active",
+                    "updatedAt": new Date().toISOString(),
+                    "updatedBy": "test_user",
+                    "metadata": [
+                        {
+                            "type": "test_update",
+                            "source": "api_test",
+                            "importedAt": new Date().toISOString(),
+                            "data": {"update_reason": "status_change"}
+                        }
+                    ]
+                },
+                "version": 1
+            };
+
+            const response = await makeRequest('PATCH', '/api/v3/entities/rest_fogo_de_chao_jardins', updateData);
+            displayResponse('entities-response', response, 'Update Entity');
+        }
+
+        async function listEntitiesByType(type) {
+            const response = await makeRequest('GET', `/api/v3/entities?type=${type}&limit=10`);
+            displayResponse('entities-response', response, `List ${type} Entities`);
+        }
+
+        async function searchEntitiesByName(query) {
+            const response = await makeRequest('GET', `/api/v3/entities?name=${encodeURIComponent(query)}&limit=10`);
+            displayResponse('entities-response', response, `Search by Name: ${query}`);
+        }
+
+        async function deleteEntity(entityId) {
+            const response = await makeRequest('DELETE', `/api/v3/entities/${entityId}`);
+            displayResponse('entities-response', response, `Delete Entity: ${entityId}`);
+        }
+
+        // Curation Tests
+        async function createSampleCurations() {
+            const curations = [
+                {
+                    "id": "cur_wagner_rest_fogo_de_chao_jardins",
+                    "entity_id": "rest_fogo_de_chao_jardins",
+                    "doc": {
+                        "curator": {
+                            "id": "curator_wagner",
+                            "name": "Wagner Montes",
+                            "email": "wagner@concierge.com"
+                        },
+                        "createdAt": "2025-10-20T18:27:00Z",
+                        "notes": {
+                            "public": "Outstanding Brazilian steakhouse with premium Angus and Wagyu cuts. The rodizio experience is unmatched.",
+                            "private": "Recommend the wine pairing - sommelier Antonio is excellent. Best tables are by the window."
+                        },
+                        "categories": {
+                            "cuisine": ["brazilian", "barbecue", "steakhouse", "south_american"],
+                            "mood": ["lively", "executive", "celebration", "sophisticated"],
+                            "price_range": ["high_end", "premium", "luxury"],
+                            "occasion": ["business_dinner", "special_celebration", "date_night", "anniversary"],
+                            "dietary": ["meat_lovers", "gluten_free_options", "wine_pairing"],
+                            "service_style": ["rodizio", "table_service", "sommelier"]
+                        },
+                        "sources": ["audio 2025-09-09", "visit 2025-10-01", "client_feedback_2025-10-15"]
+                    }
+                },
+                {
+                    "id": "cur_maria_hotel_copacabana_palace",
+                    "entity_id": "hotel_copacabana_palace",
+                    "doc": {
+                        "curator": {
+                            "id": "curator_maria",
+                            "name": "Maria Silva",
+                            "email": "maria@concierge.com"
+                        },
+                        "createdAt": "2025-10-20T19:15:00Z",
+                        "notes": {
+                            "public": "Iconic luxury hotel with unparalleled service and prime Copacabana location.",
+                            "private": "Suite 812 has the best ocean view. Concierge Roberto provides exceptional service."
+                        },
+                        "categories": {
+                            "accommodation_type": ["luxury_hotel", "beach_hotel", "historic_hotel"],
+                            "mood": ["romantic", "sophisticated", "exclusive", "relaxing"],
+                            "price_range": ["luxury", "ultra_premium"],
+                            "occasion": ["honeymoon", "anniversary", "special_celebration", "business_travel"],
+                            "amenities": ["spa", "pool", "beach_access", "fine_dining", "concierge"],
+                            "location": ["beachfront", "copacabana", "rio_de_janeiro", "city_center"]
+                        },
+                        "sources": ["inspection_2025-09-20", "client_reviews", "partner_feedback"]
+                    }
+                },
+                {
+                    "id": "cur_test_delete",
+                    "entity_id": "rest_test_delete",
+                    "doc": {
+                        "curator": {
+                            "id": "curator_test",
+                            "name": "Test Curator"
+                        },
+                        "createdAt": "2025-10-20T20:00:00Z",
+                        "categories": {
+                            "purpose": ["testing", "deletion"]
+                        },
+                        "sources": ["api_test"]
+                    }
+                }
+            ];
+
+            for (const curation of curations) {
+                const response = await makeRequest('POST', '/api/v3/curations', curation);
+                displayResponse('curations-response', response, `Created ${curation.id}`);
+            }
+        }
+
+        async function getCuration(curationId) {
+            const response = await makeRequest('GET', `/api/v3/curations/${curationId}`);
+            displayResponse('curations-response', response, `Get Curation: ${curationId}`);
+        }
+
+        async function updateCuration() {
+            const updateData = {
+                "doc": {
+                    "updatedAt": new Date().toISOString(),
+                    "categories": {
+                        "mood": ["lively", "executive", "romantic", "intimate"],
+                        "special_features": ["updated_via_api", "new_wine_menu"]
+                    }
+                },
+                "version": 1
+            };
+
+            const response = await makeRequest('PATCH', '/api/v3/curations/cur_wagner_rest_fogo_de_chao_jardins', updateData);
+            displayResponse('curations-response', response, 'Update Curation');
+        }
+
+        async function getEntityCurations(entityId) {
+            const response = await makeRequest('GET', `/api/v3/entities/${entityId}/curations`);
+            displayResponse('curations-response', response, `Entity Curations: ${entityId}`);
+        }
+
+        async function searchCurations(category, concept) {
+            const response = await makeRequest('GET', `/api/v3/curations/search?category=${category}&concept=${concept}`);
+            displayResponse('curations-response', response, `Search: ${category}=${concept}`);
+        }
+
+        async function deleteCuration(curationId) {
+            const response = await makeRequest('DELETE', `/api/v3/curations/${curationId}`);
+            displayResponse('curations-response', response, `Delete Curation: ${curationId}`);
+        }
+
+        // Query DSL Tests
+        async function queryEntitiesByName() {
+            const query = {
+                "from": "entities",
+                "filters": [
+                    {"path": "$.name", "operator": "like", "value": "%Fogo%"}
+                ],
+                "limit": 10
+            };
+
+            const response = await makeRequest('POST', '/api/v3/query', query);
+            displayResponse('queries-response', response, 'Query Entities by Name');
+        }
+
+        async function queryEntitiesByStatus() {
+            const query = {
+                "from": "entities",
+                "filters": [
+                    {"path": "$.status", "operator": "=", "value": "active"}
+                ],
+                "limit": 20
+            };
+
+            const response = await makeRequest('POST', '/api/v3/query', query);
+            displayResponse('queries-response', response, 'Query Active Entities');
+        }
+
+        async function queryCurationsByCategory() {
+            const query = {
+                "from": "curations",
+                "filters": [
+                    {"path": "$.categories.cuisine", "operator": "contains", "value": "brazilian"}
+                ],
+                "limit": 10
+            };
+
+            const response = await makeRequest('POST', '/api/v3/query', query);
+            displayResponse('queries-response', response, 'Query Curations by Category');
+        }
+
+        async function queryWithExplode() {
+            const query = {
+                "from": "curations",
+                "explode": {"path": "$.categories.mood", "as": "mood_value"},
+                "filters": [
+                    {"path": "mood_value", "operator": "=", "value": "romantic"}
+                ],
+                "limit": 10
+            };
+
+            const response = await makeRequest('POST', '/api/v3/query', query);
+            displayResponse('queries-response', response, 'Query with Array Explode');
+        }
+
+        async function complexQuery() {
+            const query = {
+                "from": "curations",
+                "filters": [
+                    {"path": "$.categories.price_range", "operator": "contains", "value": "luxury"},
+                    {"path": "$.curator.name", "operator": "like", "value": "%Wagner%"}
+                ],
+                "limit": 5
+            };
+
+            const response = await makeRequest('POST', '/api/v3/query', query);
+            displayResponse('queries-response', response, 'Complex Multi-Filter Query');
+        }
+
+        // Stress Tests
+        async function createBulkEntities() {
+            const baseEntity = {
+                "type": "restaurant",
+                "doc": {
+                    "status": "draft",
+                    "createdAt": new Date().toISOString(),
+                    "createdBy": "bulk_test",
+                    "metadata": [
+                        {
+                            "type": "bulk_test",
+                            "source": "api_test",
+                            "importedAt": new Date().toISOString(),
+                            "data": {"purpose": "stress_test"}
+                        }
+                    ]
+                }
+            };
+
+            const promises = [];
+            for (let i = 1; i <= 50; i++) {
+                const entity = {
+                    ...baseEntity,
+                    "id": `rest_bulk_test_${i}`,
+                    "doc": {
+                        ...baseEntity.doc,
+                        "name": `Bulk Test Restaurant ${i}`
+                    }
+                };
+                promises.push(makeRequest('POST', '/api/v3/entities', entity));
+            }
+
+            const results = await Promise.allSettled(promises);
+            const successful = results.filter(r => r.status === 'fulfilled' && r.value.ok).length;
+            
+            displayResponse('stress-response', {
+                ok: true,
+                status: 200,
+                statusText: 'Bulk Creation Complete',
+                data: {
+                    message: `Created ${successful}/50 entities`,
+                    details: results.map((r, i) => ({
+                        entity: `rest_bulk_test_${i+1}`,
+                        success: r.status === 'fulfilled' && r.value.ok,
+                        status: r.status === 'fulfilled' ? r.value.status : 'failed'
+                    }))
+                },
+                responseTime: 0
+            }, 'Bulk Entity Creation');
+        }
+
+        async function createBulkCurations() {
+            const baseCuration = {
+                "doc": {
+                    "curator": {"id": "curator_bulk", "name": "Bulk Test Curator"},
+                    "createdAt": new Date().toISOString(),
+                    "categories": {"test": ["bulk", "api"]},
+                    "sources": ["api_test"]
+                }
+            };
+
+            const promises = [];
+            for (let i = 1; i <= 100; i++) {
+                const entityId = `rest_bulk_test_${Math.ceil(i/2)}`; // 2 curations per entity
+                const curation = {
+                    ...baseCuration,
+                    "id": `cur_bulk_test_${i}`,
+                    "entity_id": entityId
+                };
+                promises.push(makeRequest('POST', '/api/v3/curations', curation));
+            }
+
+            const results = await Promise.allSettled(promises);
+            const successful = results.filter(r => r.status === 'fulfilled' && r.value.ok).length;
+            
+            displayResponse('stress-response', {
+                ok: true,
+                status: 200,
+                statusText: 'Bulk Creation Complete',
+                data: {
+                    message: `Created ${successful}/100 curations`,
+                    summary: `Average response time: ${Math.round(stats.responseTimes.slice(-100).reduce((a,b) => a+b, 0) / 100)}ms`
+                },
+                responseTime: 0
+            }, 'Bulk Curation Creation');
+        }
+
+        async function concurrentRequests() {
+            const requests = [
+                makeRequest('GET', '/api/v3/health'),
+                makeRequest('GET', '/api/v3/info'),
+                makeRequest('GET', '/api/v3/entities?type=restaurant&limit=5'),
+                makeRequest('GET', '/api/v3/entities/rest_fogo_de_chao_jardins'),
+                makeRequest('GET', '/api/v3/curations/search?category=mood&concept=lively')
+            ];
+
+            const startTime = Date.now();
+            const results = await Promise.allSettled(requests);
+            const totalTime = Date.now() - startTime;
+
+            const successful = results.filter(r => r.status === 'fulfilled' && r.value.ok).length;
+            
+            displayResponse('stress-response', {
+                ok: true,
+                status: 200,
+                statusText: 'Concurrent Test Complete',
+                data: {
+                    message: `${successful}/${requests.length} requests successful`,
+                    totalTime: `${totalTime}ms`,
+                    results: results.map((r, i) => ({
+                        request: i + 1,
+                        success: r.status === 'fulfilled' && r.value.ok,
+                        status: r.status === 'fulfilled' ? r.value.status : 'failed'
+                    }))
+                },
+                responseTime: totalTime
+            }, 'Concurrent Requests Test');
+        }
+
+        async function cleanupTestData() {
+            const entitiesToDelete = [];
+            for (let i = 1; i <= 50; i++) {
+                entitiesToDelete.push(`rest_bulk_test_${i}`);
+            }
+
+            let deleted = 0;
+            for (const entityId of entitiesToDelete) {
+                const response = await makeRequest('DELETE', `/api/v3/entities/${entityId}`);
+                if (response.ok || response.status === 404) deleted++;
+            }
+
+            displayResponse('stress-response', {
+                ok: true,
+                status: 200,
+                statusText: 'Cleanup Complete',
+                data: {
+                    message: `Deleted ${deleted} test entities`,
+                    note: "Curations are automatically deleted via cascade"
+                },
+                responseTime: 0
+            }, 'Cleanup Test Data');
+        }
+
+        // Error Tests
+        async function testInvalidEntity() {
+            const invalidEntity = {
+                "id": "invalid id with spaces",  // Invalid ID format
+                "type": "invalid_type",          // Invalid type
+                "doc": {
+                    "name": "",                  // Empty name
+                    "status": "invalid_status",  // Invalid status
+                    "metadata": []               // Empty metadata array
+                }
+            };
+
+            const response = await makeRequest('POST', '/api/v3/entities', invalidEntity);
+            displayResponse('errors-response', response, 'Invalid Entity Test');
+        }
+
+        async function testInvalidCuration() {
+            const invalidCuration = {
+                "id": "invalid-curation",
+                "entity_id": "nonexistent_entity",
+                "doc": {
+                    "curator": {
+                        "id": "",                    // Empty curator ID
+                        "name": ""                   // Empty curator name
+                    },
+                    "createdAt": "invalid-date",     // Invalid date format
+                    "categories": {},                // Empty categories
+                    "sources": [""]                  // Empty source string
+                }
+            };
+
+            const response = await makeRequest('POST', '/api/v3/curations', invalidCuration);
+            displayResponse('errors-response', response, 'Invalid Curation Test');
+        }
+
+        async function testNotFound() {
+            const tests = [
+                makeRequest('GET', '/api/v3/entities/nonexistent_entity'),
+                makeRequest('GET', '/api/v3/curations/nonexistent_curation'),
+                makeRequest('PATCH', '/api/v3/entities/nonexistent_entity', {"doc": {}}),
+                makeRequest('DELETE', '/api/v3/entities/nonexistent_entity')
+            ];
+
+            const results = await Promise.allSettled(tests);
+            results.forEach((result, index) => {
+                if (result.status === 'fulfilled') {
+                    const testNames = ['Get Entity', 'Get Curation', 'Update Entity', 'Delete Entity'];
+                    displayResponse('errors-response', result.value, `404 Test: ${testNames[index]}`);
+                }
+            });
+        }
+
+        async function testVersionConflict() {
+            // First, get current version
+            const getResponse = await makeRequest('GET', '/api/v3/entities/rest_fogo_de_chao_jardins');
+            if (getResponse.ok) {
+                const currentVersion = getResponse.data.version;
+                
+                // Try to update with wrong version
+                const updateData = {
+                    "doc": {"status": "inactive"},
+                    "version": currentVersion + 10  // Wrong version
+                };
+
+                const response = await makeRequest('PATCH', '/api/v3/entities/rest_fogo_de_chao_jardins', updateData);
+                displayResponse('errors-response', response, 'Version Conflict Test');
+            }
+        }
+
+        async function testInvalidQuery() {
+            const invalidQueries = [
+                {
+                    "from": "invalid_table",  // Invalid table
+                    "filters": []
+                },
+                {
+                    "from": "entities",
+                    "filters": [
+                        {"path": "$.invalid", "operator": "invalid_op", "value": "test"}  // Invalid operator
+                    ]
+                },
+                {
+                    "explode": {"path": "invalid_path"},  // Missing 'as' field
+                    "filters": []
+                }
+            ];
+
+            for (const [index, query] of invalidQueries.entries()) {
+                const response = await makeRequest('POST', '/api/v3/query', query);
+                displayResponse('errors-response', response, `Invalid Query ${index + 1}`);
+            }
+        }
+    </script>
+</body>
+</html>
