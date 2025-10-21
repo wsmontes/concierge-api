@@ -14,7 +14,7 @@ from mysql.connector import Error as MySQLError
 from mysql.connector.pooling import MySQLConnectionPool
 
 from models_v3 import (
-    Entity, Curation,
+    Entity, EntityDocument, Curation, CurationDocument,
     QueryFilter, QueryRequest
 )
 
@@ -157,7 +157,7 @@ class EntityRepository:
             return Entity(
                 id=row['id'],
                 type=row['type'],
-                doc=Entity(**json.loads(row['doc'])),
+                doc=EntityDocument(**json.loads(row['doc'])),
                 created_at=row['created_at'],
                 updated_at=row['updated_at'],
                 version=row['version']
@@ -245,7 +245,7 @@ class EntityRepository:
                 Entity(
                     id=row['id'],
                     type=row['type'],
-                    doc=Entity(**json.loads(row['doc'])),
+                    doc=EntityDocument(**json.loads(row['doc'])),
                     created_at=row['created_at'],
                     updated_at=row['updated_at'],
                     version=row['version']
@@ -271,7 +271,7 @@ class EntityRepository:
                 Entity(
                     id=row['id'],
                     type=row['type'],
-                    doc=Entity(**json.loads(row['doc'])),
+                    doc=EntityDocument(**json.loads(row['doc'])),
                     created_at=row['created_at'],
                     updated_at=row['updated_at'],
                     version=row['version']
@@ -340,7 +340,7 @@ class CurationRepository:
             return Curation(
                 id=row['id'],
                 entity_id=row['entity_id'],
-                doc=Curation(**json.loads(row['doc'])),
+                doc=CurationDocument(**json.loads(row['doc'])),
                 created_at=row['created_at'],
                 updated_at=row['updated_at'],
                 version=row['version']
@@ -363,7 +363,7 @@ class CurationRepository:
                 Curation(
                     id=row['id'],
                     entity_id=row['entity_id'],
-                    doc=Curation(**json.loads(row['doc'])),
+                    doc=CurationDocument(**json.loads(row['doc'])),
                     created_at=row['created_at'],
                     updated_at=row['updated_at'],
                     version=row['version']
@@ -457,7 +457,7 @@ class CurationRepository:
                 Curation(
                     id=row['id'],
                     entity_id=row['entity_id'],
-                    doc=Curation(**json.loads(row['doc'])),
+                    doc=CurationDocument(**json.loads(row['doc'])),
                     created_at=row['created_at'],
                     updated_at=row['updated_at'],
                     version=row['version']
