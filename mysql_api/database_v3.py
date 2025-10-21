@@ -492,8 +492,13 @@ class QueryBuilder:
         if not sql_operator:
             raise ValueError(f"Unsupported operator: {filter_obj.operator}")
         
-        # Extract JSON value
-        extract_expr = f"JSON_UNQUOTE(JSON_EXTRACT(doc, '{filter_obj.path}'))"
+        # Determine if this is a JSON path or exploded column
+        if filter_obj.path.startswith('$'):
+            # JSON path - use JSON_EXTRACT
+            extract_expr = f"JSON_UNQUOTE(JSON_EXTRACT(doc, '{filter_obj.path}'))"
+        else:
+            # Exploded column - reference directly with table alias
+            extract_expr = f"jt.{filter_obj.path}"
         
         if filter_obj.operator == "like" or filter_obj.operator == "contains":
             return f"{extract_expr} LIKE %s", f"%{filter_obj.value}%"
